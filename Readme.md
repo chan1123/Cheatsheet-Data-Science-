@@ -22,9 +22,22 @@ percentage = total_missing/total_cells
 ```python
 # remove all the rows that contain a missing value
 print('Original rows:', df.shape[0])
-df.dropna()
-print('Remaining rows:', df.shape[0])
+dropped = df.dropna()
+print('Remaining rows:', dropped.shape[0])
 
 # remove all columns with at least one missing value
-df.dropna(axis=1)
+print('Original columns:', df.shape[1])
+dropped = df.dropna(axis=1)
+print('Remaining columns', dropped.shape[1])
+```
+
+#### Fill missing values
+
+```python
+# replace all NA's with 0
+df.fillna(0)
+
+# replace all NA's the value that comes directly after it in the same column, 
+# then replace all the remaining na's with 0
+df.fillna(method='bfill', axis=0).fillna(0)
 ```
