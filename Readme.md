@@ -82,3 +82,46 @@ Assumes the data is normally distributed
 # normalize the exponential data with boxcox
 normalized_data = stats.boxcox(original_data)
 ```
+
+### Parsing Dates
+Tell pandas to use ```datetime64``` dtypes
+#### Required libraries
+
+```python
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import datetime
+```
+
+#### Convert date columns to datetime
+
+```python
+# create a new column, date_parsed, with the parsed dates
+df['date_parsed'] = pd.to_datetime(df['date'], format="%m/%d/%y")
+```
+#### Ask pandas to be smart to infer
+Why not advisable?
+- Slow
+- Someone is creative with the date entry and result is not always correct
+```python
+df['date_parsed'] = pd.to_datetime(df['Date'], infer_datetime_format=True)
+```
+
+#### Select the day
+Note: ```.dt``` is attribute of the datetime object
+```python
+day_of_month = df['date_parsed'].dt.day
+day_of_month.head()
+```
+
+#### Check for errors to see if we mix up months and date
+Check if dates are distributed from 1 to 31
+```python
+# remove na's
+day_of_month = day_of_month.dropna()
+
+# plot the day of the month
+sns.distplot(day_of_month, kde=False, bins=31)
+```
+
