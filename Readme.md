@@ -167,3 +167,43 @@ pd.read_csv(filename, encoding=**)
 ```python
 df.to_csv(filename)
 ```
+
+### Cleaning inconsistent data entry
+
+#### Required Libraries
+```python
+import pandas as pd
+import numpy as np
+
+# helpful modules
+import fuzzywuzzy
+from fuzzywuzzy import process
+import chardet
+```
+
+#### Inconsistent Text
+Check for inconsistent data entry
+1. make everything lower case
+2. remove white spaces at the beginning and end
+```python
+# get all the unique values
+unique_text = df['column of interest'].unique()
+unique_text.sort()
+
+df['column of interest'] = df['column of interest'].str.lower()
+
+df['column of interest'] = df['column of interest'].str.strip()
+
+```
+
+#### Use fuzzy matching to correct inconsistent data entry
+Fuzzy matching: The process of automatically finding text strings that are very similar to the target string
+
+```python
+# get the top 10 closest matches to target_string
+matches = fuzzywuzzy.process.extract(target_string, list_of_strings, limit=10, scorer=fuzzywuzzy.fuzz.token_sort_ratio)
+
+# take a look at them
+matches
+```
+
