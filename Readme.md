@@ -94,6 +94,18 @@ import seaborn as sns
 import datetime
 ```
 
+#### Check date lengths
+```python
+# Check the length of the entries
+date_lengths = df['Dates'].str.len()
+date_lengths.value_counts()
+
+# Check where is the issue
+indices = np.where([date_lengths == **])[1]
+print('Indices with corrupted data:', indices)
+earthquakes.loc[indices]
+```
+
 #### Convert date columns to datetime
 
 ```python
