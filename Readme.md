@@ -154,10 +154,12 @@ Warning: chardet is just guessing.
 ```python
 # look at the first ten thousand bytes to guess the character encoding
 with open(filename, 'rb') as rawdata:
-    result = chardet.detect(rawdata.read(10000))
+    result = chardet.detect(rawdata.read(1_000_000))
 
 # check what the character encoding might be
 print(result)
+
+pd.read_csv(filename, encoding=**)
 ```
 
 #### Save the file (automatically UTF-8)
