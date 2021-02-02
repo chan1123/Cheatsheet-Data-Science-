@@ -137,3 +137,31 @@ day_of_month = day_of_month.dropna()
 sns.distplot(day_of_month, kde=False, bins=31)
 ```
 
+### Dealing with Character Encodings issue
+
+#### Required Libraries
+
+```python
+import pandas as pd
+import numpy as np
+
+# helpful character encoding module
+import chardet
+```
+
+#### Check what is the encoding
+Warning: chardet is just guessing. 
+```python
+# look at the first ten thousand bytes to guess the character encoding
+with open(filename, 'rb') as rawdata:
+    result = chardet.detect(rawdata.read(10000))
+
+# check what the character encoding might be
+print(result)
+```
+
+#### Save the file (automatically UTF-8)
+
+```python
+df.to_csv(filename)
+```
