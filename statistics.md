@@ -44,5 +44,31 @@ A row within a table is commonly referred to as a record.
 
 > Synonyms: case, example, instance, observation, pattern, sample
 
+## Estimates of Location
+
+#### Mean(average)
+The sum of all values divided by the number of values.
+
+#### Weighted mean (weighted average)
+The sum of all values times a weight divided by the sum of the weights.
+
+#### Median (50th percentile)
+The value such that one-half of the data lies above and below.
+
+#### Percentile (quantile)
+The value such that P percent of the data lies below.
+
+#### Weighted median
+The value such that one-half of the sum of the weights lies above and below the sorted data.
+
+#### Trimmed mean (truncated mean)
+The average of all values after dropping a fixed number of extreme values.
+
+#### Robust (resistant)
+Not sensitive to extreme values.
+
+#### Outlier (extreme value)
+A data value that is very different from most of the data.
+
 
 
