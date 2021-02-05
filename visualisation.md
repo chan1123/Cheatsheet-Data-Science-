@@ -77,3 +77,36 @@ sns.lmplot(x=x_name, y=y_name, hue=third_variable, data=insurance_data)
 sns.swarmplot(x=x_axis,
               y=y_axis)
 ```
+
+#### Histogram
+
+```python
+sns.distplot(a=df[column], kde=False)
+```
+
+#### Density plots (1D)
+kernel density estimate (KDE) plot
+
+```python
+sns.kdeplot(data=df[column], shade=True)
+```
+
+#### 2D KDE plots
+
+```python
+sns.jointplot(x=df[column], y=df[column], kind="kde")
+```
+
+#### 2 or more histograms (or kde)
+
+```python
+sns.distplot(a=df[a]], label="a", kde=False)
+sns.distplot(a=df[b]], label="b", kde=False)
+sns.distplot(a=df[c]], label="c", kde=False)
+
+# Add title
+plt.title("Desired Title")
+
+# Force legend to appear
+plt.legend()
+```
