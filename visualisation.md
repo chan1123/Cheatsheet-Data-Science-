@@ -23,6 +23,10 @@ plt.xlabel("x-axis")
 
 # Add label for vertical axis
 plt.ylabel("y-axis")
+
+# Change the style of the figure to the "dark" theme
+sns.set_style("dark")
+
 ```
 #### Summary
 
