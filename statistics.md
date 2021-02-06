@@ -95,6 +95,9 @@ The sum of squared deviations from the mean divided by n – 1 where n is the nu
 
 #### Standard deviation
 The square root of the variance.
+```python
+df[column].std()
+```
 
 #### Mean absolute deviation (l1-norm, Manhattan norm)
 The mean of the absolute values of the deviations from the mean.
@@ -102,6 +105,10 @@ The mean of the absolute values of the deviations from the mean.
 #### Median absolute deviation from the median (Robust)
 The median of the absolute values of the deviations from the median.
 Median absolute deviation = Median(|x1-m|, |x2-m|,..., |xN-m|)
+```python
+from statsmodels import robust
+robust.scale.mad(df[column])
+```
 #### Range
 The difference between the largest and the smallest value in a data set.
 
@@ -111,10 +118,50 @@ Metrics based on the data values sorted from smallest to biggest.
 #### Percentile (quantile)
 The value such that P percent of the values take on this value or less and (100–P) percent take on this value or more.
 
+```python
+percentages = [0.05, 0.25, 0.5, 0.75, 0.95]
+df = pd.DataFrame(df[column].quantile(percentages))
+df.index = [f'{p * 100}%' for p in percentages]
+# Format index by list comprehensions
+df.T
+```
+
 #### Interquartile range
 The difference between the 75th percentile and the 25th percentile.
+```python
+df[column].quantile(0.75) - df[column].quantile(0.25)
+```
 
 #### Degrees of Freedom (Not a concern for data scientist)
 > The premise is that you want to make estimates about a population based on a sample. Find number of constraints in computing an estimate. Since the standard deviation depends on the calculation of sample mean, there is 1 constraints and there are n-1 degree of freedom. Therefore n-1 should be used instead of n
+
+## Exploring data distribution
+
+#### Boxplot (box and whiskers plot)
+A plot introduced by Tukey as a quick way to visualize the distribution of data.
+```python
+import matplotlib.pylab as plt
+
+ax = ((df[column]/1_000_000)
+      .plot
+      .box(figsize=(3, 4)))
+
+# to separate the values of zero, we can use underscore
+ax.set_ylabel('y_label')
+
+plt.tight_layout()
+#tight_layout automatically adjusts subplot params so that the subplot(s) 
+#fits in to the figure area.abels, and titles.
+plt.show()
+```
+
+#### Frequency table
+A tally of the count of numeric data values that fall into a set of intervals (bins).
+
+#### Histogram
+A plot of the frequency table with the bins on the x-axis and the count (or pro‐ portion) on the y-axis. While visually similar, bar charts should not be confused with histograms. 
+
+#### Density plot
+A smoothed version of the histogram, often based on a kernel density estimate.
 
 
