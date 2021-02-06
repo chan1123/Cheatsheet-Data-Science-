@@ -48,27 +48,73 @@ A row within a table is commonly referred to as a record.
 
 #### Mean(average)
 The sum of all values divided by the number of values.
+```python
+df[column].mean()
+```
 
 #### Weighted mean (weighted average)
 The sum of all values times a weight divided by the sum of the weights.
-
+```python
+import numpy as np
+np.average(df[column], weights=df[weight])
+```
 #### Median (50th percentile)
 The value such that one-half of the data lies above and below.
-
+```python
+df[column].median()
+```
 #### Percentile (quantile)
 The value such that P percent of the data lies below.
 
 #### Weighted median
 The value such that one-half of the sum of the weights lies above and below the sorted data.
-
+```python
+import wquantiles
+wquantiles.median(df[column], weights=df[weight])
+```
 #### Trimmed mean (truncated mean)
 The average of all values after dropping a fixed number of extreme values.
-
+```python
+from scipy.stats import trim_mean
+trim_mean(state['Population'], 0.1)
+# trim=0.1 drops 10% from each end
+```
 #### Robust (resistant)
 Not sensitive to extreme values.
 
 #### Outlier (extreme value)
 A data value that is very different from most of the data.
 
+## Estimates of Variability
+
+#### Deviation (errors, residuals)
+The difference between the observed values and the estimate of location.
+
+#### Variance (of a sample) (mean-squared-error)
+The sum of squared deviations from the mean divided by n – 1 where n is the number of data values.
+
+#### Standard deviation
+The square root of the variance.
+
+#### Mean absolute deviation (l1-norm, Manhattan norm)
+The mean of the absolute values of the deviations from the mean.
+
+#### Median absolute deviation from the median (Robust)
+The median of the absolute values of the deviations from the median.
+Median absolute deviation = Median(|x1-m|, |x2-m|,..., |xN-m|)
+#### Range
+The difference between the largest and the smallest value in a data set.
+
+#### Order statistics (ranks)
+Metrics based on the data values sorted from smallest to biggest.
+
+#### Percentile (quantile)
+The value such that P percent of the values take on this value or less and (100–P) percent take on this value or more.
+
+#### Interquartile range
+The difference between the 75th percentile and the 25th percentile.
+
+#### Degrees of Freedom (Not a concern for data scientist)
+> The premise is that you want to make estimates about a population based on a sample. Find number of constraints in computing an estimate. Since the standard deviation depends on the calculation of sample mean, there is 1 constraints and there are n-1 degree of freedom. Therefore n-1 should be used instead of n
 
 
