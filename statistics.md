@@ -156,12 +156,33 @@ plt.show()
 ```
 
 #### Frequency table
-A tally of the count of numeric data values that fall into a set of intervals (bins).
+A tally of the count of numeric data values that fall into a set of intervals (bins). A tabular version of the frequency counts found in a histogram.
 
+```python
+# Simple way to get
+pd.cut(df[column], {desired binning}).value_counts()
+```
 #### Histogram
 A plot of the frequency table with the bins on the x-axis and the count (or pro‐ portion) on the y-axis. While visually similar, bar charts should not be confused with histograms. 
+```python
+import matplotlib.pylab as plt
 
+ax = ((df[column] / 1_000_000)
+      .plot
+      .hist(figsize=(4, 4), 
+            bins = 10)
+     )
+ax.set_xlabel('desired x-axis')
+
+plt.tight_layout()
+plt.show()
+```
 #### Density plot
 A smoothed version of the histogram, often based on a kernel density estimate.
-
+```python
+ax = df[column].plot.hist(density=True, xlim=[0,12], bins=range(1,12)) 
+# density argument required to be True to add a kde plot below
+df[column].plot.density(ax=ax)
+ax.set_xlabel('Desired x-column')
+```
 
