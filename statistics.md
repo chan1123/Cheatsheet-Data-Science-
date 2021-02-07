@@ -157,13 +157,14 @@ plt.show()
 
 #### Frequency table
 A tally of the count of numeric data values that fall into a set of intervals (bins). A tabular version of the frequency counts found in a histogram.
-
+Converts numeric data to an ordered factor 
 ```python
 # Simple way to get
 pd.cut(df[column], {desired binning}).value_counts()
 ```
 #### Histogram
 A plot of the frequency table with the bins on the x-axis and the count (or pro‐ portion) on the y-axis. While visually similar, bar charts should not be confused with histograms. 
+
 ```python
 import matplotlib.pylab as plt
 
@@ -185,4 +186,96 @@ ax = df[column].plot.hist(density=True, xlim=[0,12], bins=range(1,12))
 df[column].plot.density(ax=ax)
 ax.set_xlabel('Desired x-column')
 ```
+## Exploring Binary and Categorical data
+
+#### Mode
+The most commonly occurring category or value in a data set.
+
+#### Expected value
+When the categories can be associated with a numeric value, this gives an average value based on a category’s probability of occurrence.
+
+#### Bar charts
+The frequency or proportion for each category plotted as bars.
+```python
+ax = df.transpose().plot.bar(figsize=(4, 4), legend=False)
+ax.set_xlabel('x_axis')
+ax.set_ylabel('y_axis')
+```
+#### Pie charts (less informative than bar chart, though have some business uses)
+The frequency or proportion for each category plotted as wedges in a pie.
+
+#### Difference between bar charts and histogram
+> In a bar chart the x-axis represents different categories of a factor variable, while in a histogram the x-axis represents values of a single variable on a numeric scale. In a histogram, the bars are typically shown touching each other, with gaps indicating values that did not occur in the data. In a bar chart, the bars are shown separate from one another.
+
+## Correlation
+Variables X and Y (each with measured data) are said to be posi‐ tively correlated if high values of X go with high values of Y, and low values of X go with low values of Y. If high values of X go with low values of Y, and vice versa, the variables are negatively correlated.
+
+#### Correlation coefficient (Pearson)
+A metric that measures the extent to which numeric variables are associated with one another (ranges from –1 to +1).
+
+#### Correlation matrix
+A table where the variables are shown on both rows and columns, and the cell values are the correlations between the variables.
+
+```python
+import matplotlib.pylab as plt
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax = sns.heatmap(etfs.corr(), vmin=-1, vmax=1, 
+                 cmap=sns.diverging_palette(20, 220, as_cmap=True),
+                 ax=ax)
+
+plt.tight_layout()
+plt.show()
+```
+
+##### Ellipse plot
+
+```python
+from matplotlib.collections import EllipseCollection
+from matplotlib.colors import Normalize
+
+def plot_corr_ellipses(data, figsize=None, **kwargs):
+    ''' https://stackoverflow.com/a/34558488 '''
+    M = np.array(data)
+    if not M.ndim == 2:
+        raise ValueError('data must be a 2D array')
+    fig, ax = plt.subplots(1, 1, figsize=figsize, subplot_kw={'aspect':'equal'})
+    ax.set_xlim(-0.5, M.shape[1] - 0.5)
+    ax.set_ylim(-0.5, M.shape[0] - 0.5)
+    ax.invert_yaxis()
+
+    # xy locations of each ellipse center
+    xy = np.indices(M.shape)[::-1].reshape(2, -1).T
+
+    # set the relative sizes of the major/minor axes according to the strength of
+    # the positive/negative correlation
+    w = np.ones_like(M).ravel() + 0.01
+    h = 1 - np.abs(M).ravel() - 0.01
+    a = 45 * np.sign(M).ravel()
+
+    ec = EllipseCollection(widths=w, heights=h, angles=a, units='x', offsets=xy,
+                           norm=Normalize(vmin=-1, vmax=1),
+                           transOffset=ax.transData, array=M.ravel(), **kwargs)
+    ax.add_collection(ec)
+
+    # if data is a DataFrame, use the row/column names as tick labels
+    if isinstance(data, pd.DataFrame):
+        ax.set_xticks(np.arange(M.shape[1]))
+        ax.set_xticklabels(data.columns, rotation=90)
+        ax.set_yticks(np.arange(M.shape[0]))
+        ax.set_yticklabels(data.index)
+
+    return ec
+    
+m = plot_corr_ellipses(etfs.corr(), figsize=(5, 4), cmap='bwr_r')
+cb = fig.colorbar(m)
+cb.set_label('Correlation coefficient')
+
+plt.tight_layout()
+plt.show()
+```
+
+#### Scatterplot
+A plot in which the x-axis is the value of one variable, and the y-axis the value of another.
+
 
